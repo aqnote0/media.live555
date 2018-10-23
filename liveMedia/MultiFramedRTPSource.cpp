@@ -73,7 +73,6 @@ MultiFramedRTPSource
   fReorderingBuffer = new ReorderingPacketBuffer(packetFactory);
 
   // Try to use a big receive buffer for RTP:
-  // change by "Peng Lis"<aqnote@qq.com>
   increaseReceiveBufferTo(env, RTPgs->socketNum(), 50*1024);
 }
 

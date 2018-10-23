@@ -113,7 +113,6 @@ Boolean movieHeightOptionSet = False;
 unsigned movieFPS = 15; // default
 Boolean movieFPSOptionSet = False;
 char const* fileNamePrefix = "";
-// change by "Peng Li"<aqnote@qq.com>
 unsigned fileSinkBufferSize = 100000;
 unsigned socketInputBufferSize = 0;
 Boolean packetLossCompensate = False;

@@ -13,8 +13,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 **********/
-// 定义Boolean，对于非borland编译器，False = 0, True = 1
-// add by "Peng Li"<aqote@qq.com>
 #ifndef _BOOLEAN_HH
 #define _BOOLEAN_HH
 
