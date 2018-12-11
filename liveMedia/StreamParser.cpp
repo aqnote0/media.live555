@@ -23,7 +23,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 #include <string.h>
 #include <stdlib.h>
 
-#define BANK_SIZE 150000
+//#define BANK_SIZE 150000
+#define BANK_SIZE 2048*1536*8*3*3
 
 void StreamParser::flushInput() {
   fCurParserIndex = fSavedParserIndex = 0;
