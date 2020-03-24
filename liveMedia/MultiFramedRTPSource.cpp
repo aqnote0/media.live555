@@ -14,7 +14,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 **********/
 // "liveMedia"
-// Copyright (c) 1996-2018 Live Networks, Inc.  All rights reserved.
+// Copyright (c) 1996-2020 Live Networks, Inc.  All rights reserved.
 // RTP source for a common kind of payload format: Those that pack multiple,
 // complete codec frames (as many as possible) into each RTP packet.
 // Implementation
@@ -73,8 +73,7 @@ MultiFramedRTPSource
   fReorderingBuffer = new ReorderingPacketBuffer(packetFactory);
 
   // Try to use a big receive buffer for RTP:
-  //increaseReceiveBufferTo(env, RTPgs->socketNum(), 50*1024);
-  increaseReceiveBufferTo(env, RTPgs->socketNum(), 2048*1536*8*3*75);
+  increaseReceiveBufferTo(env, RTPgs->socketNum(), 50*1024);
 }
 
 void MultiFramedRTPSource::reset() {
@@ -258,6 +257,13 @@ void MultiFramedRTPSource::networkReadHandler1() {
        // don't wait for 'lost' packets to arrive out-of-order later
     if ((our_random()%10) == 0) break; // simulate 10% packet loss
 #endif
+
+    if (fCrypto != NULL) { // The packet is SRTP; authenticate/decrypt it first
+      unsigned newPacketSize;
+      if (!fCrypto->processIncomingSRTPPacket(bPacket->data(), bPacket->dataSize(), newPacketSize)) break;
+      if (newPacketSize > bPacket->dataSize()) break; // sanity check; shouldn't happen
+      bPacket->removePadding(bPacket->dataSize() - newPacketSize); // treat MKI+auth as padding
+    }
 
     // Check for the 12-byte RTP header:
     if (bPacket->dataSize() < 12) break;
